@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router-dom';
-import Home from './components/Home'
+import { Link, Outlet } from 'react-router-dom';
+
 function App() {
   return (
     <div className="container">
@@ -14,13 +14,13 @@ function App() {
           <div className="col-md-2">
             <nav>
               <div className="list-group">
-                <a href="/" className="list-group-item list-group-item-action">Home</a>
-                <a href="/movies" className="list-group-item list-group-item-action">Movies</a>
-                <a href="#!" className="list-group-item list-group-item-action">Genre</a>
-                <a href="#!" className="list-group-item list-group-item-action">Add Movie</a>
-                <a href="#!" className="list-group-item list-group-item-action">Manage Catalog</a>
-                <a href="#!" className="list-group-item list-group-item-action">GraphQL</a>
-              </div>
+              <Link to="/" className="list-group-item list-group-item-action">Home</Link>
+              <Link to="/movies" className="list-group-item list-group-item-action">Movies</Link>
+              <Link to="/genres" className="list-group-item list-group-item-action">Genre</Link>
+              <Link to="/admin/movie/0" className="list-group-item list-group-item-action">Add Movie</Link>
+              <Link to="/manage-catalogue" className="list-group-item list-group-item-action">Manage Catalog</Link>
+              <Link to="/graphql" className="list-group-item list-group-item-action">GraphQL</Link>
+            </div>
             </nav>
           </div>
           <div className="col-md-10">
