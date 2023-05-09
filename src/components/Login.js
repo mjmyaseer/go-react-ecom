@@ -1,57 +1,61 @@
 import { useState } from "react";
-import Input from "./form/Input";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import Input from "./form/Input";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const {setJwtToken} = useOutletContext();
-    const {setAlertClassName} = useOutletContext();
-    const {setAlertMessage} = useOutletContext();
+
+    const { setJwtToken } = useOutletContext();
+    const { setAlertClassName } = useOutletContext();
+    const { setAlertMessage } = useOutletContext();
+    const { toggleRefresh } = useOutletContext();
 
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-       
-        //build the request payload
+        
+        // build the request payload
         let payload = {
-            email:email,
-            password:password,
+            email: email,
+            password: password,
         }
 
         const requestOptions = {
             method: "POST",
-            Headers:{
+            headers: {
                 'Content-Type': 'application/json'
             },
-            credentials:'include',
-            body:JSON.stringify(payload),
+            credentials: 'include',
+            body: JSON.stringify(payload),
         }
 
         fetch(`/authenticate`, requestOptions)
-        .then((response)=>response.json())
-        .then((data)=>{
-            if (data.error){
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    setAlertClassName("alert-danger");
+                    setAlertMessage(data.message);
+                } else {
+                    setJwtToken(data.access_token);
+                    setAlertClassName("d-none");
+                    setAlertMessage("");
+                    toggleRefresh(true);
+                    navigate("/");
+                }
+            })
+            .catch(error => {
                 setAlertClassName("alert-danger");
-                setAlertMessage(data.message);
-            }else{
-                setJwtToken(data.access_token);
-                setAlertClassName("d-none");
-                setAlertMessage("");
-                navigate("/")
-            }
-        })
-        .catch(error =>{
-            setAlertClassName("alert-danger");
-            setAlertMessage(error);
-        })
+                setAlertMessage(error);
+            })
     }
 
-    return (
+    return(
         <div className="col-md-6 offset-md-3">
             <h2>Login</h2>
             <hr />
+
             <form onSubmit={handleSubmit}>
                 <Input
                     title="Email Address"
@@ -72,15 +76,17 @@ const Login = () => {
                 />
 
                 <hr />
-                <input
+
+                <input 
                     type="submit"
                     className="btn btn-primary"
                     value="Login"
                 />
+
+
             </form>
         </div>
-    );
-
+    )
 }
 
 export default Login;

@@ -7,14 +7,14 @@ const Input = forwardRef((props, ref) => {
                 {props.title}
             </label>
             <input
-                id={props.id}
-                className={props.className}
                 type={props.type}
-                name={props.name}
-                autoComplete={props.autoComplete}
+                className={props.className}
+                id={props.name}
                 ref={ref}
-                onChange={props.onChange}
+                name={props.name}
                 placeholder={props.placeholder}
+                onChange={props.onChange}
+                autoComplete={props.autoComplete}
                 value={props.value}
             />
             <div className={props.errorDiv}>{props.errorMsg}</div>
